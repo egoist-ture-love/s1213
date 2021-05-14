@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/axios-0.18.0.js"></script>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <table border="1" cellspacing="0" width="800px">
+        <tr>
+            <th>id</th>
+            <th>姓名</th>
+            <th>性别</th>
+            <th>年龄</th>
+            <th>地址</th>
+            <th>qq</th>
+            <th>邮箱</th>
+        </tr>
+        <tr v-for="(linkman,index) in linkmanList">
+            <td v-text="linkman.id"></td>
+            <td v-text="linkman.name"></td>
+            <td v-text="linkman.sex"></td>
+            <td v-text="linkman.age"></td>
+            <td v-text="linkman.address"></td>
+            <td v-text="linkman.qq"></td>
+            <td v-text="linkman.email"></td>
+        </tr>
+    </table>
+</div>
+<script>
+    new Vue({
+        el:"#app",
+        data:{
+            linkmanList:[]
+        },
+        methods:{
+            findAll(){
+                //发送异步请求，获取联系人信息
+                axios.get("/linkman/findAll").then(response=>{
+                    if(response.data.flag){
+                        console.log("sddddddddddddd")
+                        this.linkmanList = response.data.result
+                    }
+                })
+            }
+        },
+        created(){
+            this.findAll()
+        }
+    })
+</script>
+</body>
+</html>

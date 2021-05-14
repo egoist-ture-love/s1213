@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+<!--    name用于其他包应用当前包 extends默认继承-->
+
+<!--        一个struts2请求就是一个action-->
+        <package name="hello" extends="struts-default">
+            <action name="hello">
+                <result>/jsp/welcome.jsp</result>
+            </action>
+        </package>
+
+
+
+
+
+
+
+    <package name="login" extends="struts-default" namespace="/login"><!--            访问路径-->
+        <action name="first" class="com.tentact.struts2.action.UserAction" method="login">
+            <result name="success">/jsp/success.jsp</result>
+            <result name="fail">/jsp/hello.jsp</result>
+        </action>
+    </package>
+
+
+
+
+
+
+
+    <package name="register" extends="struts-default" namespace="/register">
+        <action name="second" class="com.tentact.struts2.action.UserAction" method="register">
+            <result name="success">/jsp/success.jsp</result>
+        </action>
+    </package>
+
+    <package name="show" extends="struts-default" namespace="/show">
+        <action name="second" class="com.tentact.struts2.action.UserAction" method="showUser">
+            <result name="success">/jsp/showUser.jsp</result>
+        </action>
+        <action name="first" class="com.tentact.struts2.action.UserAction" method="deleteUser">
+            <result name="success" type="redirectAction">second</result>
+        </action>
+
+        <action name="third" class="com.tentact.struts2.action.UserAction" method="upDateUser">
+            <result name="success">/jsp/show.jsp</result>
+        </action>
+
+        <action name="forth" class="com.tentact.struts2.action.UserAction" method="upDateUser1">
+            <result name="success" type="redirectAction">second</result>
+        </action>
+    </package>
+
+
+    <package name="DemoAction" extends="struts-default" namespace="/demo">
+        <interceptors>
+            <interceptor name="LoginInterceptor" class="com.tentact.struts2.interceptor.LoginInterceptor">
+
+            </interceptor>
+        </interceptors>
+<!--        全局的结果-->
+        <global-results>
+            <result name="success">/jsp/register.jsp</result>
+        </global-results>
+        <action name="demo_*" class="com.tentact.struts2.action.DemoAction" method="{1}">
+<!--            配置局部结果 全局失效-->
+            <interceptor-ref name="LoginInterceptor"></interceptor-ref>
+            <result name="success">/jsp/show.jsp</result>
+            <result name="fail">/jsp/hello.jsp</result>
+        </action>
+<!--        使用通配符进行配置demo_*-->
+<!--        拦截器    -->
+
+    </package>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</struts>
